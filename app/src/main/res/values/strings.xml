@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Finances</string>
+    <string name="title_activity_settings">Налаштування віджету</string>
+    <string name="action_settings">Налаштування</string>
+    <string name="primaryServer">Основний сервер</string>
+    <string name="secondaryServer">Запасний сервер</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.chornij.finances.MyService;
+package com.chornij.finances.widget;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,12 +7,14 @@ import java.io.IOException;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
 
 
 import com.chornij.finances.R;
+import com.chornij.finances.SettingsActivity;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -29,6 +31,7 @@ public class MyFactory implements RemoteViewsFactory {
     Context context;
     SimpleDateFormat sdf;
     int widgetID;
+    SharedPreferences settings;
 
     MyFactory(Context ctx, Intent intent) {
         context = ctx;
@@ -39,6 +42,8 @@ public class MyFactory implements RemoteViewsFactory {
     @Override
     public void onCreate() {
         data = new ArrayList<String>();
+
+        settings = context.getSharedPreferences(SettingsActivity.SETTINGS_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -81,9 +86,12 @@ public class MyFactory implements RemoteViewsFactory {
     public void onDataSetChanged() {
         data.clear();
 
-        String forecastUrl = "http://192.168.1.20/api/finances";
+        // todo: apply secondary server
+//        etSecondaryServer.setText(settings.getString("secondaryServer", ""));
 
-        Request request = new Request.Builder().url(forecastUrl).build();
+        String primaryServer = settings.getString("primaryServer", "");
+        Log.d(TAG, "primary server: " + primaryServer);
+        Request request = new Request.Builder().url(primaryServer).build();
 
         try {
             Response response = client.newCall(request).execute();
@@ -109,7 +117,6 @@ public class MyFactory implements RemoteViewsFactory {
         } catch (JSONException e) {
             Log.d(TAG, "JSONException: " + e.toString());
         }
-
     }
 
     @Override

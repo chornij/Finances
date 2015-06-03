@@ -1,28 +1,36 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.chornij.finances">
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.chornij.finances" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <application android:allowBackup="true" android:label="@string/app_name" android:icon="@mipmap/ic_launcher" android:theme="@style/AppTheme">
-
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
         <service
-            android:name=".MyService.MyService"
-            android:permission="android.permission.BIND_REMOTEVIEWS">
+            android:name=".widget.MyService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" >
         </service>
 
-        <receiver
-            android:name=".MyService.MyProvider">
+        <receiver android:name=".widget.MyProvider" >
             <intent-filter>
-                <action
-                    android:name="android.appwidget.action.APPWIDGET_UPDATE">
-                </action>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.looksok.intent.action.OPEN_SETTINGS" />
             </intent-filter>
+
             <meta-data
                 android:name="android.appwidget.provider"
-                android:resource="@xml/widget_metadata">
+                android:resource="@xml/widget_metadata" >
             </meta-data>
         </receiver>
-        
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
 
 </manifest>

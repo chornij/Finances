@@ -1,4 +1,4 @@
-package com.chornij.finances.MyService;
+package com.chornij.finances.widget;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;

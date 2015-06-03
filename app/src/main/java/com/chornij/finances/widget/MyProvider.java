@@ -1,4 +1,4 @@
-package com.chornij.finances.MyService;
+package com.chornij.finances.widget;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -6,11 +6,13 @@ import java.text.SimpleDateFormat;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.chornij.finances.R;
+import com.chornij.finances.SettingsActivity;
 
 public class MyProvider extends AppWidgetProvider {
 
@@ -23,6 +25,15 @@ public class MyProvider extends AppWidgetProvider {
         for (int i : appWidgetIds) {
             updateWidget(context, appWidgetManager, i);
         }
+
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+        Intent configIntent = new Intent(context, SettingsActivity.class);
+
+        configIntent.setAction("com.chornij.intent.action.OPEN_SETTINGS");
+        PendingIntent settingsPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
+
+        remoteViews.setOnClickPendingIntent(R.id.btnSettings, settingsPendingIntent);
+        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
     }
 
     void updateWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
